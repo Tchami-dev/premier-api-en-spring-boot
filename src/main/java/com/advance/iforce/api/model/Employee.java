@@ -27,5 +27,5 @@ public class Employee{
 
     private String mail;
 
-    private String password;
+    private String passwords;
 }
