@@ -1,9 +1,11 @@
 package com.advance.iforce.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,14 +33,16 @@ public class EmployeeController {
     }
 
 
-      @PostMapping("/employee")                                             // repond aux requêtes HTTP POST envoyées par URL 
-   public ModelAndView saveEmployee(@ModelAttribute Employee employee){     //affiche un employée enregistré obligatoirement dans un champs de formulaire
-    employeeService.saveEmployee(employee); 
-    log.info("utilisateur first name =  {} last name ={} mail = {} password = {}", employee.getFirstName(), employee.getLastName(), employee.getmail(), employee.getPasswords());                                       // enregistrement des donnnées dans la couche service + repository
-    return new ModelAndView("redirect:/");                                  //redirige l'utilisateur vers la page d'accueil
+  @PostMapping("/employee")                                             // repond aux requêtes HTTP POST envoyées par URL 
+   public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){     //affiche un employée enregistré obligatoirement dans un champs de formulaire
+    log.info("utilisateur first name =  {} last name ={} mail = {} password = {}", employee.getFirstName(), employee.getLastName(), employee.getMail(), employee.getPassword());                                       // enregistrement des donnnées dans la couche service + repository
+    return ResponseEntity.ok(employeeService.saveEmployee(employee));                                //redirige l'utilisateur vers la page d'accueil
    }
+    
 
+
+   
+    }
 
       
 
-}
