@@ -29,9 +29,6 @@ public class Employee{
 
     private String passwords;
 
-    public Object getmail() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getmail'");
-    }
+   
 
 }
