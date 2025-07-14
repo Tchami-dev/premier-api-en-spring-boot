@@ -26,7 +26,7 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public void deleteEmployee(final Long id) {
+    public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
 
