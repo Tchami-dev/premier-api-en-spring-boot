@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
+import java.lang.RuntimeException;
 
 import com.advance.iforce.api.model.Employee;
 import com.advance.iforce.api.service.EmployeeService;
@@ -53,8 +54,9 @@ public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
     return ResponseEntity.noContent().build();  
 }
 
-@PostMapping("/updateEmployee/{id}")
+@PutMapping("/updateEmployee/{id}")
 public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,  @RequestBody Employee updateEmployee){
+    log.info("employé modifier avec succès");
     Optional<Employee>employeeOptional = employeeService.getEmployeeById(id);
     if(employeeOptional.isPresent()){
         Employee employee = employeeOptional.get();
@@ -63,7 +65,7 @@ public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,  @RequestB
         employee.setMail(updateEmployee.getMail());
         employee.setPassword(updateEmployee.getPassword());
         
-        log.info("modification effectuer avec sucès");
+        log.info("modification effectuer avec succès");
         return ResponseEntity.ok(employeeService.saveEmployee(employee));
         
     }else{
@@ -72,10 +74,12 @@ public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,  @RequestB
 
 }
 
-/*@GetMapping("/employee/{id}")
+@GetMapping("/employee/{id}")
 public Employee getEmployeeById(@PathVariable Long id){
-    return employeeService.getEmployeeById(id);
-}*/
+    log.info("employé récupéré avec succès");
+    return employeeService.getEmployeeById(id)
+    .orElseThrow(()-> new RuntimeException("employee abscent avec cet id"));
+}
 
 
     }
