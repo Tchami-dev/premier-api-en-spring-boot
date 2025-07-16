@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.Optional;
 
 import com.advance.iforce.api.model.Employee;
 import com.advance.iforce.api.service.EmployeeService;
@@ -50,6 +52,32 @@ public ResponseEntity<Void> deleteEmployee(@PathVariable("id") Long id) {
     employeeService.deleteEmployee(id);
     return ResponseEntity.noContent().build();  
 }
+
+@PostMapping("/updateEmployee/{id}")
+public ResponseEntity<Employee> updateEmployee(@PathVariable Long id,  @RequestBody Employee updateEmployee){
+    Optional<Employee>employeeOptional = employeeService.getEmployeeById(id);
+    if(employeeOptional.isPresent()){
+        Employee employee = employeeOptional.get();
+        employee.setFirstName(updateEmployee.getFirstName());
+        employee.setLastName(updateEmployee.getLastName());
+        employee.setMail(updateEmployee.getMail());
+        employee.setPassword(updateEmployee.getPassword());
+        
+        log.info("modification effectuer avec sucès");
+        return ResponseEntity.ok(employeeService.saveEmployee(employee));
+        
+    }else{
+        return ResponseEntity.notFound().build();
+    }
+
+}
+
+/*@GetMapping("/employee/{id}")
+public Employee getEmployeeById(@PathVariable Long id){
+    return employeeService.getEmployeeById(id);
+}*/
+
+
     }
 
       
